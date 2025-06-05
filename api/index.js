@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 
 import 'dotenv/config'
 
-import router from './routes/index.js';
-import { connectDB } from './db/index.js';
+import router from '../routes/index.js';
+import { connectDB } from '../db/index.js';
 import multer from 'multer';
 import cors from 'cors'
 // import {fetchPerformanceData} from './utils/googleBusinessPerfomance.js';
