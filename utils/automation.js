@@ -5,9 +5,11 @@ import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
 
 export async function postGoogleReview({ email, password, placeId, review, rating }) {
   let browser;
-
+const isLocal = process.env.ISLOCAL === 'TRUE';
   try {
     // Configure plugins
+  if(isLocal) {
+    console.log('first')
     const stealth = StealthPlugin();
     stealth.enabledEvasions.delete("iframe.contentWindow");
     stealth.enabledEvasions.delete("media.codecs");
@@ -24,7 +26,17 @@ export async function postGoogleReview({ email, password, placeId, review, ratin
       ignoreDefaultArgs: ["--disable-extensions"],
       dumpio: true,
       args: ["--start-maximized", "--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    });}
+    else{
+       const executablePath = await chromium.executablePath;
+  browser = await puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: executablePath,
+    headless: chromium.headless,
+    protocolTimeout: 60000,
+  });
+    }
 
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });

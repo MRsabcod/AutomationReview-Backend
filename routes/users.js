@@ -31,6 +31,7 @@ const generateToken = async (email) => {
 userRouter.post('/automate', async (req, res) => {
   try {
     const { placeId ,public_id} = req.body;
+    console.log(placeId,public_id)
     if (!placeId) return res.status(400).json({ error: 'Missing placeId' });
     if (!public_id) return res.status(400).json({ error: 'Missing public id' });
 
