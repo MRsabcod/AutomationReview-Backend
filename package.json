@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node api/index.js",
-    "dev": "nodemon api/index.js"
+    "dev": "nodemon api/index.js",
+    "postinstall": "npm install --force"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^1.0.0",
