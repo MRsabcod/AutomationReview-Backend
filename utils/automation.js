@@ -2,6 +2,7 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AnonymizeUAPlugin from "puppeteer-extra-plugin-anonymize-ua";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
+import chromium from "chrome-aws-lambda";
 
 export async function postGoogleReview({ email, password, placeId, review, rating }) {
   let browser;
