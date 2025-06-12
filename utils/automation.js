@@ -3,7 +3,7 @@ import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AnonymizeUAPlugin from "puppeteer-extra-plugin-anonymize-ua";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
 import chromium from "chrome-aws-lambda";
-
+import path from 'path'
 export async function postGoogleReview({ email, password, placeId, review, rating }) {
   let browser;
 const isLocal = process.env.ISLOCAL === 'TRUE';
