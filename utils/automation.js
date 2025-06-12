@@ -34,6 +34,7 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
   executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
   headless: 'new',
   dumpio: true, // helpful for debugging
+protocolTimeout: 60000, // <-- This is what fixes my issue
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
@@ -57,7 +58,7 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
 
    console.log('second')
    console.log("Launching Chrome from:", path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'));
-await new Promise(resolve => setTimeout(resolve, 3000));
+
 
     }
 
