@@ -33,19 +33,25 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
  browser = await puppeteer.launch({
   executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
   headless: 'new',
-  dumpio: true,
+  dumpio: true, // helpful for debugging
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
+    '--disable-gpu',
+    '--disable-software-rasterizer',
+    '--no-zygote',
+    '--single-process',
     '--disable-accelerated-2d-canvas',
     '--no-first-run',
-    '--no-zygote',
-    '--disable-gpu',
-    '--disable-features=site-per-process',
-    '--disable-software-rasterizer',
-    '--single-process',
-    '--remote-debugging-port=9222',
+    '--no-default-browser-check',
+    '--disable-features=IsolateOrigins,site-per-process',
+    '--blink-settings=imagesEnabled=false',
+    '--window-size=1280,800',
+    '--disable-background-timer-throttling',
+    '--disable-backgrounding-occluded-windows',
+    '--disable-renderer-backgrounding',
+    '--remote-debugging-port=9222'
   ]
 });
 
