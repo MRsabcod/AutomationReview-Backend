@@ -34,7 +34,7 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
     executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
-    headless: false,
+    headless: 'new',
     protocolTimeout: 60000,
   });
    console.log('second')
