@@ -30,14 +30,29 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
     });}
     else{
        const executablePath = await chromium.executablePath;
-  browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
-    headless: 'new',
-    protocolTimeout: 60000,
-  });
+ browser = await puppeteer.launch({
+  executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
+  headless: 'new',
+  dumpio: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-accelerated-2d-canvas',
+    '--no-first-run',
+    '--no-zygote',
+    '--disable-gpu',
+    '--disable-features=site-per-process',
+    '--disable-software-rasterizer',
+    '--single-process',
+    '--remote-debugging-port=9222',
+  ]
+});
+
    console.log('second')
+   console.log("Launching Chrome from:", path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'));
+await new Promise(resolve => setTimeout(resolve, 3000));
+
     }
 
     const page = await browser.newPage();
