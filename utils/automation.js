@@ -30,38 +30,25 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
     });}
     else{
        const executablePath = await chromium.executablePath;
- browser = await puppeteer.launch({
+  browser = await puppeteer.launch({
   executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
-  headless: 'new',
+  headless: true,                                 // NOT 'new'; use traditional headless for stability :contentReference[oaicite:6]{index=6}
   dumpio: true,
-  protocolTimeout: 120000, // max safety
+  protocolTimeout:60000,
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
-    '--disable-gpu',
+    '--disable-gpu',                            // ✅ critical to avoid startup hang :contentReference[oaicite:7]{index=7}
     '--disable-software-rasterizer',
     '--disable-accelerated-2d-canvas',
+    '--disable-background-timer-throttling',
+    '--disable-backgrounding-occluded-windows',
+    '--disable-renderer-backgrounding',
     '--no-first-run',
     '--no-zygote',
     '--single-process',
-    '--disable-background-networking',
-    '--disable-background-timer-throttling',
-    '--disable-client-side-phishing-detection',
-    '--disable-default-apps',
-    '--disable-features=site-per-process',
-    '--disable-hang-monitor',
-    '--disable-popup-blocking',
-    '--disable-prompt-on-repost',
-    '--disable-sync',
-    '--disable-translate',
-    '--metrics-recording-only',
-    '--safebrowsing-disable-auto-update',
-    '--enable-automation',
-    '--password-store=basic',
-    '--use-mock-keychain',
     '--remote-debugging-port=9222',
-    '--window-size=1280,800',
   ]
 });
 await new  Promise(resolve => setTimeout(resolve, 3000)); // wait 1 second
