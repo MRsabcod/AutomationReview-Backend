@@ -33,28 +33,38 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
  browser = await puppeteer.launch({
   executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
   headless: 'new',
-  dumpio: true, // helpful for debugging
-protocolTimeout: 60000, // <-- This is what fixes my issue
+  dumpio: true,
+  protocolTimeout: 120000, // max safety
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
     '--disable-gpu',
     '--disable-software-rasterizer',
-    '--no-zygote',
-    '--single-process',
     '--disable-accelerated-2d-canvas',
     '--no-first-run',
-    '--no-default-browser-check',
-    '--disable-features=IsolateOrigins,site-per-process',
-    '--blink-settings=imagesEnabled=false',
-    '--window-size=1280,800',
+    '--no-zygote',
+    '--single-process',
+    '--disable-background-networking',
     '--disable-background-timer-throttling',
-    '--disable-backgrounding-occluded-windows',
-    '--disable-renderer-backgrounding',
-    '--remote-debugging-port=9222'
+    '--disable-client-side-phishing-detection',
+    '--disable-default-apps',
+    '--disable-features=site-per-process',
+    '--disable-hang-monitor',
+    '--disable-popup-blocking',
+    '--disable-prompt-on-repost',
+    '--disable-sync',
+    '--disable-translate',
+    '--metrics-recording-only',
+    '--safebrowsing-disable-auto-update',
+    '--enable-automation',
+    '--password-store=basic',
+    '--use-mock-keychain',
+    '--remote-debugging-port=9222',
+    '--window-size=1280,800',
   ]
 });
+await new  Promise(resolve => setTimeout(resolve, 3000)); // wait 1 second
 
    console.log('second')
    console.log("Launching Chrome from:", path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'));
@@ -68,11 +78,12 @@ protocolTimeout: 60000, // <-- This is what fixes my issue
     // Sign in
     console.log("🔐 Signing in to Google...");
     await page.goto("https://accounts.google.com/signin", {
-      waitUntil: "networkidle2",
+      waitUntil: "domcontentloaded",
       timeout: 60000,
     });
 
     await page.type("input[type='email']", email, { delay: 100 });
+    console.log('email written ')
     await page.click("#identifierNext");
     // await new Promise(r => setTimeout(r, 3000));
     await page.waitForSelector("input[type='password']", { visible: true, timeout: 15000 });
