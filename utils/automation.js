@@ -9,7 +9,7 @@ export async function postGoogleReview({ email, password, placeId, review, ratin
 const isLocal = process.env.ISLOCAL === 'TRUE';
   try {
     // Configure plugins
-  if(isLocal) {
+  // if(isLocal) {
     console.log('first')
     const stealth = StealthPlugin();
     stealth.enabledEvasions.delete("iframe.contentWindow");
@@ -21,43 +21,45 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
 
     // Launch browser
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
       timeout: 0, // no timeout at launch level
       ignoreDefaultArgs: ["--disable-extensions"],
+      executablePath:!isLocal? path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'):"",
       dumpio: true,
       args: ["--start-maximized", "--no-sandbox", "--disable-setuid-sandbox"],
-    });}
-    else{
-       const executablePath = await chromium.executablePath;
-  browser = await puppeteer.launch({
-  executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
-  headless: true,                                 // NOT 'new'; use traditional headless for stability :contentReference[oaicite:6]{index=6}
-  dumpio: true,
-  protocolTimeout:60000,
-  args: [
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
-    '--disable-gpu',                            // ✅ critical to avoid startup hang :contentReference[oaicite:7]{index=7}
-    '--disable-software-rasterizer',
-    '--disable-accelerated-2d-canvas',
-    '--disable-background-timer-throttling',
-    '--disable-backgrounding-occluded-windows',
-    '--disable-renderer-backgrounding',
-    '--no-first-run',
-    '--no-zygote',
-    '--single-process',
-    '--remote-debugging-port=9222',
-  ]
-});
-await new  Promise(resolve => setTimeout(resolve, 3000)); // wait 1 second
+    });
+  // }
+    // else{
+//        const executablePath = await chromium.executablePath;
+//   browser = await puppeteer.launch({
+//   executablePath: path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'),
+//   headless: true,                                 // NOT 'new'; use traditional headless for stability :contentReference[oaicite:6]{index=6}
+//   dumpio: true,
+//   protocolTimeout:60000,
+//   args: [
+//     '--no-sandbox',
+//     '--disable-setuid-sandbox',
+//     '--disable-dev-shm-usage',
+//     '--disable-gpu',                            // ✅ critical to avoid startup hang :contentReference[oaicite:7]{index=7}
+//     '--disable-software-rasterizer',
+//     '--disable-accelerated-2d-canvas',
+//     '--disable-background-timer-throttling',
+//     '--disable-backgrounding-occluded-windows',
+//     '--disable-renderer-backgrounding',
+//     '--no-first-run',
+//     '--no-zygote',
+//     '--single-process',
+//     '--remote-debugging-port=9222',
+//   ]
+// });
+// await new  Promise(resolve => setTimeout(resolve, 3000)); // wait 1 second
 
-   console.log('second')
-   console.log("Launching Chrome from:", path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'));
+//    console.log('second')
+//    console.log("Launching Chrome from:", path.resolve('.puppeteer-cache/chrome/linux-136.0.7103.92/chrome-linux64/chrome'));
 
 
-    }
+//     }
 
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
