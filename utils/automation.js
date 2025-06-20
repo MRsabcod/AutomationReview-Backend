@@ -2,7 +2,7 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AnonymizeUAPlugin from "puppeteer-extra-plugin-anonymize-ua";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
-import chromium from "chrome-aws-lambda";
+import fs from 'fs'
 import path from 'path'
 export async function postGoogleReview({ email, password, placeId, review, rating }) {
   let browser;
@@ -114,6 +114,14 @@ while (!reviewFrame && waited < maxWait) {
 }
 
 if (!reviewFrame) {
+const screenshotPath = '/tmp/review_state.png';
+await page.screenshot({ path: screenshotPath });
+
+const imageBuffer = fs.readFileSync(screenshotPath);
+const base64Image = imageBuffer.toString('base64');
+
+// Attach base64 image in your API response
+console.log(`data:image/png;base64,${base64Image}`)
   throw new Error("❌ Couldn't find the review iframe after waiting.");
 }
 
