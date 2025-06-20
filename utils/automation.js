@@ -81,7 +81,14 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
 
     await page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 });
     console.log("✅ Logged in!");
+const screenshotPath = '/tmp/review_state.png';
+await page.screenshot({ path: screenshotPath });
 
+const imageBuffer = fs.readFileSync(screenshotPath);
+const base64Image = imageBuffer.toString('base64');
+
+// Attach base64 image in your API response
+console.log(`data:image/png;base64,${base64Image}`)
     // Navigate to review link
     const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
     console.log("📨 Opening review page...");
@@ -114,14 +121,7 @@ while (!reviewFrame && waited < maxWait) {
 }
 
 if (!reviewFrame) {
-const screenshotPath = '/tmp/review_state.png';
-await page.screenshot({ path: screenshotPath });
 
-const imageBuffer = fs.readFileSync(screenshotPath);
-const base64Image = imageBuffer.toString('base64');
-
-// Attach base64 image in your API response
-console.log(`data:image/png;base64,${base64Image}`)
   throw new Error("❌ Couldn't find the review iframe after waiting.");
 }
 
