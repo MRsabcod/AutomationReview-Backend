@@ -81,7 +81,11 @@ const isLocal = process.env.ISLOCAL === 'TRUE';
 
     await page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 });
     console.log("✅ Logged in!");
-const screenshotPath = '/tmp/review_state.png';
+
+    // Navigate to review link
+    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+    console.log("📨 Opening review page...");
+    const screenshotPath = '/tmp/review_state.png';
 await page.screenshot({ path: screenshotPath });
 
 const imageBuffer = fs.readFileSync(screenshotPath);
@@ -89,9 +93,6 @@ const base64Image = imageBuffer.toString('base64');
 
 // Attach base64 image in your API response
 console.log(`data:image/png;base64,${base64Image}`)
-    // Navigate to review link
-    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
-    console.log("📨 Opening review page...");
     await page.goto(reviewUrl, { waitUntil: "networkidle2", timeout: 60000 });
     await new Promise(r => setTimeout(r, 3000));
     // Find the review iframe
